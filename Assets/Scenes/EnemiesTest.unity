@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 1677725099996377303, guid: c01422553f6e6234ba091a6ccaf97918, type: 3}
-  enemyAmount: 20
+  enemyAmount: 5
 --- !u!4 &244893775
 Transform:
   m_ObjectHideFlags: 0
@@ -792,6 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 7878022046459568997, guid: c01422553f6e6234ba091a6ccaf97918, type: 3}
+  pool: {fileID: 244893774}
   enemySpawnPoints:
   - {fileID: 1051566954}
   - {fileID: 537031432}

@@ -21,19 +21,19 @@ public class EnemyPool : MonoBehaviour
 
     public void SpawnEnemies(Vector3 Location)
     {
-        print("remaining: " + remainingEnemies.Count);
 
         if(remainingEnemies.Count > 0)
         {
             var current = remainingEnemies.Dequeue();
             current.gameObject.SetActive(true);
             current.transform.position = Location;
+            print("Enemy spawned from pool");
         }
     }
 
     public void AddToQueue(EnemyPathfinding enemy)
     {
-        print("adding " + enemy.gameObject.name);
+        print("Enemy added to pool");
         remainingEnemies.Enqueue(enemy);
     }
 

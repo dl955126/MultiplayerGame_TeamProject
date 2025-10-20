@@ -22,7 +22,7 @@ public class EnemyPathfinding : MonoBehaviour
     bool hasFoundPlayer = false;
 
     //test
-    float timeToDespawn = 4;
+    float timeToDespawn = 10;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,6 +74,7 @@ public class EnemyPathfinding : MonoBehaviour
 
         timeToDespawn -= Time.deltaTime;
 
+        //test pool
         if(timeToDespawn <= 0)
         {
             DisablePlayer();
@@ -111,25 +112,26 @@ public class EnemyPathfinding : MonoBehaviour
 
     private void OnDisable()
     {
-        if(pool != null)
+        if (pool != null)
         {
             pool.AddToQueue(this);
         }
     }
+
 
     public void SetPool(EnemyPool enemyPool)
     {
         pool = enemyPool;
     }
 
+    //test pool
     public void DisablePlayer()
     {
-        Debug.Log("disabling");
         if (pool != null)
         {
-            Debug.Log("addibg back");
             pool.AddToQueue(this);
         }
+        timeToDespawn = 10;
         gameObject.SetActive(false);
     }
 
