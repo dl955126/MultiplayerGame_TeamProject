@@ -17,7 +17,12 @@ public class EnemyPathfinding : MonoBehaviour
     [SerializeField] float timeToRecalcPath;
     float timeElapsedPath;
 
+    EnemyPool pool;
+
     bool hasFoundPlayer = false;
+
+    //test
+    float timeToDespawn = 4;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -66,6 +71,13 @@ public class EnemyPathfinding : MonoBehaviour
                 currentCorner = remainingCorners.Dequeue();
             }
         }
+
+        timeToDespawn -= Time.deltaTime;
+
+        if(timeToDespawn <= 0)
+        {
+            DisablePlayer();
+        }
     }
 
     private void FixedUpdate()
@@ -95,6 +107,30 @@ public class EnemyPathfinding : MonoBehaviour
                 currentCorner = remainingCorners.Dequeue();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        if(pool != null)
+        {
+            pool.AddToQueue(this);
+        }
+    }
+
+    public void SetPool(EnemyPool enemyPool)
+    {
+        pool = enemyPool;
+    }
+
+    public void DisablePlayer()
+    {
+        Debug.Log("disabling");
+        if (pool != null)
+        {
+            Debug.Log("addibg back");
+            pool.AddToQueue(this);
+        }
+        gameObject.SetActive(false);
     }
 
     //draw out the path for the enemy
