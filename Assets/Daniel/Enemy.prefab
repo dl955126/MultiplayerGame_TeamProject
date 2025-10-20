@@ -155,6 +155,7 @@ MonoBehaviour:
   speed: 5
   agent: {fileID: 1000838012094859136}
   playerTarget: {fileID: 0}
+  timeToRecalcPath: 1.5
 --- !u!195 &1000838012094859136
 NavMeshAgent:
   m_ObjectHideFlags: 0

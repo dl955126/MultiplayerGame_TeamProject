@@ -11,11 +11,13 @@ public class EnemyPathfinding : MonoBehaviour
     [Header("Navmesh")]
     [SerializeField] NavMeshAgent agent;
     [SerializeField] NavMeshPath navPath;
-    [SerializeField] Transform playerTarget;
+    [SerializeField] PlayerPlaceholder playerTarget;
     Queue<Vector3> remainingCorners;
     Vector3 currentCorner;
     [SerializeField] float timeToRecalcPath;
     float timeElapsedPath;
+
+    bool hasFoundPlayer = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,18 +26,30 @@ public class EnemyPathfinding : MonoBehaviour
         navPath = new NavMeshPath();
         remainingCorners = new Queue<Vector3>();
 
-        CreatePath();
+        if (hasFoundPlayer)
+        {
+            CreatePath();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //find player at runtime
+        if (!hasFoundPlayer)
+        {
+            FindPlayer();
+        }
+
         timeElapsedPath += Time.deltaTime;
 
         if (timeElapsedPath > timeToRecalcPath)
         {
             remainingCorners.Clear();
-            CreatePath();
+            if (hasFoundPlayer)
+            {
+                CreatePath();
+            }
             timeElapsedPath = 0;
 
         }
@@ -58,10 +72,16 @@ public class EnemyPathfinding : MonoBehaviour
     {
         rb.linearVelocity = transform.forward * speed;
     }
+    public void FindPlayer()
+    {
+        playerTarget = FindAnyObjectByType<PlayerPlaceholder>();
+        hasFoundPlayer = true;
+    }
+
 
     public void CreatePath()
     {
-        if (agent.CalculatePath(playerTarget.position, navPath))
+        if (agent.CalculatePath(playerTarget.transform.position, navPath))
         {
             Debug.Log("Path found");
             foreach (Vector3 corner in navPath.corners)
