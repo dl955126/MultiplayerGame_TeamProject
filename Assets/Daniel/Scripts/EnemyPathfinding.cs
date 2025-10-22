@@ -11,7 +11,7 @@ public class EnemyPathfinding : MonoBehaviour
     [Header("Navmesh")]
     [SerializeField] NavMeshAgent agent;
     [SerializeField] NavMeshPath navPath;
-    [SerializeField] PlayerPlaceholder playerTarget;
+    [SerializeField] PlayerScript playerTarget;
     Queue<Vector3> remainingCorners;
     Vector3 currentCorner;
     [SerializeField] float timeToRecalcPath;
@@ -74,11 +74,11 @@ public class EnemyPathfinding : MonoBehaviour
 
         timeToDespawn -= Time.deltaTime;
 
-        //test pool
+        /*test pool
         if(timeToDespawn <= 0)
         {
             DisablePlayer();
-        }
+        }*/
     }
 
     private void FixedUpdate()
@@ -87,7 +87,7 @@ public class EnemyPathfinding : MonoBehaviour
     }
     public void FindPlayer()
     {
-        playerTarget = FindAnyObjectByType<PlayerPlaceholder>();
+        playerTarget = FindAnyObjectByType<PlayerScript>();
         hasFoundPlayer = true;
     }
 
