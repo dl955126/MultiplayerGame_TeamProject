@@ -11,7 +11,7 @@ public class EnemyPathfinding : MonoBehaviour
     [Header("Navmesh")]
     [SerializeField] NavMeshAgent agent;
     [SerializeField] NavMeshPath navPath;
-    [SerializeField] PlayerScript playerTarget;
+    [SerializeField] NewPlayerInputs playerTarget;
     Queue<Vector3> remainingCorners;
     Vector3 currentCorner;
     [SerializeField] float timeToRecalcPath;
@@ -87,7 +87,7 @@ public class EnemyPathfinding : MonoBehaviour
     }
     public void FindPlayer()
     {
-        playerTarget = FindAnyObjectByType<PlayerScript>();
+        playerTarget = FindAnyObjectByType<NewPlayerInputs>();
         hasFoundPlayer = true;
     }
 
