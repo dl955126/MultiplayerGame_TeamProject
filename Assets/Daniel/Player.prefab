@@ -492,6 +492,7 @@ MonoBehaviour:
   playerSpeed: 6
   followCamera: {fileID: 7443486091981609014}
   aimCamera: {fileID: 1080606594051030549}
+  aimCameraTransform: {fileID: 7153108920698019538}
 --- !u!114 &4242819192835480408
 MonoBehaviour:
   m_ObjectHideFlags: 0

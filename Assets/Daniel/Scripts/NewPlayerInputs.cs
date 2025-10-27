@@ -3,8 +3,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using Unity.Netcode;
 
-public class NewPlayerInputs : MonoBehaviour
+public class NewPlayerInputs : NetworkBehaviour
 {
     [Header("Player Variables")]
     [SerializeField] float playerSpeed;
@@ -12,6 +13,10 @@ public class NewPlayerInputs : MonoBehaviour
     [Header("Camera Variables")]
     [SerializeField] CinemachineCamera followCamera;
     [SerializeField] CinemachineCamera aimCamera;
+    [SerializeField] Transform aimCameraTransform;
+    Vector3 aimCameraFoward;
+    Vector3 aimCameraRight;
+
     public bool isAiming { private set; get; }
 
 
@@ -25,6 +30,22 @@ public class NewPlayerInputs : MonoBehaviour
         isAiming = false;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        //only enable camera for current player
+        if(!IsOwner)
+        {
+            followCamera.enabled = false;
+            aimCamera.enabled = false;
+            return;
+        }
+
+        aimCamera.Priority = 0;
+        followCamera.Priority = 1;
+
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -32,6 +53,17 @@ public class NewPlayerInputs : MonoBehaviour
         {
             aimCamera.Priority = 1;
             followCamera.Priority = 0;
+
+
+            //camera based movement
+            aimCameraFoward = aimCameraTransform.forward;
+            aimCameraFoward.y = 0;
+            aimCameraFoward.Normalize();
+
+            aimCameraRight = aimCameraTransform.right;
+            aimCameraRight.y = 0;
+            aimCameraRight.Normalize();
+
         }
         else
         {
@@ -49,7 +81,14 @@ public class NewPlayerInputs : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = movementVector * playerSpeed;
+        if (!isAiming)
+        {
+            rb.linearVelocity = movementVector * playerSpeed;
+        }
+        else
+        {
+            rb.linearVelocity = (aimCameraFoward * movementVector.z + aimCameraRight * movementVector.x).normalized * playerSpeed;
+        }
     }
 
     public void OnMovement(InputAction.CallbackContext ctx)

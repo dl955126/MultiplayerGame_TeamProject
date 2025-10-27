@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerBullet : MonoBehaviour
 {
     [SerializeField] float bulletSpeed;
     [SerializeField] float bulletLifeTime;
+    [SerializeField] int bulletDamage;
     float bulletElapsed;
     Rigidbody rb;
 
@@ -25,9 +27,19 @@ public class PlayerBullet : MonoBehaviour
         }
     }
 
-
     private void FixedUpdate()
     {
         rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<EnemyPathfinding>())
+        {
+            collision.gameObject.GetComponent<EnemyPathfinding>().OnShot(bulletDamage);
+            Destroy(gameObject);
+        }
+    }
+
+
 }

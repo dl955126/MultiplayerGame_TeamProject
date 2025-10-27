@@ -6,6 +6,9 @@ public class EnemyPathfinding : MonoBehaviour
 {
     [Header("Enemy Variables")]
     [SerializeField] float speed;
+    [SerializeField] int maxHealth = 10;
+    int currentEnemyHealth;
+    
     Rigidbody rb;
 
     [Header("Navmesh")]
@@ -21,12 +24,11 @@ public class EnemyPathfinding : MonoBehaviour
 
     bool hasFoundPlayer = false;
 
-    //test
-    float timeToDespawn = 10;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        currentEnemyHealth = maxHealth;
+
         rb = GetComponent<Rigidbody>();
         navPath = new NavMeshPath();
         remainingCorners = new Queue<Vector3>();
@@ -72,13 +74,7 @@ public class EnemyPathfinding : MonoBehaviour
             }
         }
 
-        timeToDespawn -= Time.deltaTime;
 
-        /*test pool
-        if(timeToDespawn <= 0)
-        {
-            DisablePlayer();
-        }*/
     }
 
     private void FixedUpdate()
@@ -110,6 +106,16 @@ public class EnemyPathfinding : MonoBehaviour
         }
     }
 
+    public void OnShot(int bulletDamage)
+    {
+        currentEnemyHealth -= bulletDamage;
+
+        if (currentEnemyHealth <= 0) 
+        { 
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnDisable()
     {
         if (pool != null)
@@ -124,16 +130,6 @@ public class EnemyPathfinding : MonoBehaviour
         pool = enemyPool;
     }
 
-    //test pool
-    public void DisablePlayer()
-    {
-        if (pool != null)
-        {
-            pool.AddToQueue(this);
-        }
-        timeToDespawn = 10;
-        gameObject.SetActive(false);
-    }
 
     //draw out the path for the enemy
     private void OnDrawGizmos()

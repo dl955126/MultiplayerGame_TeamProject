@@ -12,6 +12,11 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
 
+        
+    }
+
+    public void StartGame()
+    {
         InvokeRepeating("SpawnEnemy", 2, spawnRate);
     }
 
