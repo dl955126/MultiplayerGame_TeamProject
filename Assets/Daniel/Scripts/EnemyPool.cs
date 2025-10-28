@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
@@ -16,18 +15,12 @@ public class EnemyPool : MonoBehaviour
             var e = Instantiate(enemy);
             e.SetPool(this);
             e.gameObject.SetActive(false);
-
-            if (NetworkManager.Singleton.IsServer)
-            {
-                e.GetComponent<NetworkObject>().Spawn(false);
-            }
         }
         
     }
 
     public void SpawnEnemies(Vector3 Location)
     {
-        if (!NetworkManager.Singleton.IsServer) return; //only host spawn enemies
 
         if(remainingEnemies.Count > 0)
         {
@@ -35,8 +28,6 @@ public class EnemyPool : MonoBehaviour
             current.gameObject.SetActive(true);
             current.transform.position = Location;
             print("Enemy spawned from pool");
-            current.NetworkObject.Spawn();
-
         }
     }
 

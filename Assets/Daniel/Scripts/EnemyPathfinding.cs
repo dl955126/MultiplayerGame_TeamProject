@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyPathfinding : NetworkBehaviour
+public class EnemyPathfinding : MonoBehaviour
 {
     [Header("Enemy Variables")]
     [SerializeField] float speed;
     [SerializeField] int maxHealth = 10;
-    NetworkVariable<int> currentEnemyHealth = new NetworkVariable<int>();
+    int currentEnemyHealth;
     
     Rigidbody rb;
 
@@ -26,8 +25,9 @@ public class EnemyPathfinding : NetworkBehaviour
     bool hasFoundPlayer = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake()
+    void Start()
     {
+        currentEnemyHealth = maxHealth;
 
         rb = GetComponent<Rigidbody>();
         navPath = new NavMeshPath();
@@ -38,16 +38,10 @@ public class EnemyPathfinding : NetworkBehaviour
             CreatePath();
         }
     }
-    public override void OnNetworkSpawn()
-    {
-        currentEnemyHealth.Value = maxHealth;
-
-    }
 
     // Update is called once per frame
     void Update()
     {
-
         //find player at runtime
         if (!hasFoundPlayer)
         {
@@ -112,12 +106,11 @@ public class EnemyPathfinding : NetworkBehaviour
         }
     }
 
-    
     public void OnShot(int bulletDamage)
     {
-        currentEnemyHealth.Value -= bulletDamage;
+        currentEnemyHealth -= bulletDamage;
 
-        if (currentEnemyHealth.Value <= 0) 
+        if (currentEnemyHealth <= 0) 
         { 
             gameObject.SetActive(false);
         }
