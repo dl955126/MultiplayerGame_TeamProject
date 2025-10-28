@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyPathfinding : MonoBehaviour
+public class EnemyPathfinding : NetworkBehaviour
 {
     [Header("Enemy Variables")]
     [SerializeField] float speed;
@@ -111,9 +112,16 @@ public class EnemyPathfinding : MonoBehaviour
         currentEnemyHealth -= bulletDamage;
 
         if (currentEnemyHealth <= 0) 
-        { 
-            gameObject.SetActive(false);
+        {
+            DespawnRpc();
         }
+    }
+
+    [Rpc(SendTo.Server)]
+    public void DespawnRpc()
+    {
+        gameObject.SetActive(false);
+        gameObject.GetComponent<NetworkObject>().Despawn(false);
     }
 
     private void OnDisable()
