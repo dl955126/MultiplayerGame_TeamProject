@@ -46,7 +46,7 @@ public class EnemyPathfinding : NetworkBehaviour
         //find player at runtime
         if (!hasFoundPlayer)
         {
-            FindPlayer();
+            FindPlayers();
         }
 
         timeElapsedPath += Time.deltaTime;
@@ -82,9 +82,13 @@ public class EnemyPathfinding : NetworkBehaviour
     {
         rb.linearVelocity = transform.forward * speed;
     }
-    public void FindPlayer()
+    public void FindPlayers()
     {
-        playerTarget = FindAnyObjectByType<NewPlayerInputs>();
+        NewPlayerInputs[] allPlayers = FindObjectsByType<NewPlayerInputs>(FindObjectsSortMode.None);
+        
+        int randomPlayer = Random.Range(0, allPlayers.Length);
+        playerTarget = allPlayers[randomPlayer];
+
         hasFoundPlayer = true;
     }
 

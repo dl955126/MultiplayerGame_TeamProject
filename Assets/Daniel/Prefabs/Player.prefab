@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d986fb703380fe41b0a07cac3f3feda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   bulletPrefab: {fileID: 1004853792415838156, guid: f165d60c496e6504c9fec61ffad5fada, type: 3}
   gunBarrelEnd: {fileID: 6109596060157647669}
   player: {fileID: 5055700822817643212}
@@ -264,8 +265,8 @@ GameObject:
   - component: {fileID: 3952817734534899767}
   - component: {fileID: 8823158734309814413}
   - component: {fileID: 4938630590605857389}
-  - component: {fileID: 5055700822817643212}
   - component: {fileID: 4242819192835480408}
+  - component: {fileID: 5055700822817643212}
   - component: {fileID: 5515832236597510418}
   m_Layer: 0
   m_Name: Player
@@ -477,22 +478,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &5055700822817643212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5799588522647835553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4a5d810d28abed4cba9d435f326c549, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 6
-  followCamera: {fileID: 7443486091981609014}
-  aimCamera: {fileID: 1080606594051030549}
-  aimCameraTransform: {fileID: 7153108920698019538}
 --- !u!114 &4242819192835480408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,6 +503,28 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &5055700822817643212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5799588522647835553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a5d810d28abed4cba9d435f326c549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerSpeed: 6
+  playerColors:
+  - {fileID: 2100000, guid: 37abdedcdff672748bab7647b11cfa59, type: 2}
+  - {fileID: 2100000, guid: 28b49fa142ed3224392c29ef3c40b94c, type: 2}
+  - {fileID: 2100000, guid: 5bd2cc2520f927043b403676b5eb950f, type: 2}
+  - {fileID: 2100000, guid: 10cc6158eb14da54ab84c9e52e3543a1, type: 2}
+  followCamera: {fileID: 7443486091981609014}
+  aimCamera: {fileID: 1080606594051030549}
+  aimCameraTransform: {fileID: 7153108920698019538}
 --- !u!114 &5515832236597510418
 MonoBehaviour:
   m_ObjectHideFlags: 0

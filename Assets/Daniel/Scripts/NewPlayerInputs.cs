@@ -9,6 +9,9 @@ public class NewPlayerInputs : NetworkBehaviour
 {
     [Header("Player Variables")]
     [SerializeField] float playerSpeed;
+    [SerializeField] Material[] playerColors;
+    NetworkVariable<int> playerIndex = new NetworkVariable<int>();
+    public static int playerCount = 0;
 
     [Header("Camera Variables")]
     [SerializeField] CinemachineCamera followCamera;
@@ -21,6 +24,7 @@ public class NewPlayerInputs : NetworkBehaviour
 
 
     Rigidbody rb;
+    Renderer myRenderer;
     Vector2 inputVector;
     Vector3 movementVector;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,6 +36,18 @@ public class NewPlayerInputs : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (IsServer)
+        {
+            playerIndex.Value = playerCount++;
+        }
+
+        if(myRenderer == null)
+        {
+            myRenderer = GetComponent<Renderer>();
+        }
+
+        myRenderer.material = playerColors[playerIndex.Value];
+
         //only enable camera for current player
         if(!IsOwner)
         {
@@ -39,6 +55,8 @@ public class NewPlayerInputs : NetworkBehaviour
             aimCamera.enabled = false;
             return;
         }
+
+        
 
         aimCamera.Priority = 0;
         followCamera.Priority = 1;
