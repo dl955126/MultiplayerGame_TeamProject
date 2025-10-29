@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    public GameObject power;
     public GameObject player;
     public float PowerupTime;
     void Start()
     {
-        PowerupTime = 0;
+
     }
     void Update()
     {
@@ -18,9 +19,7 @@ public class PowerUp : MonoBehaviour
 
         if (c1.transform == player.transform)
         {
-
-            gameObject.SendMessage("PowerUp", "example");
-            Destroy(gameObject);
+            Destroy(power);
         }
     }
 
