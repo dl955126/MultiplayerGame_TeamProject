@@ -8,7 +8,7 @@ public class EnemyPathfinding : NetworkBehaviour
     [Header("Enemy Variables")]
     [SerializeField] float speed;
     [SerializeField] int maxHealth = 10;
-    int currentEnemyHealth;
+    NetworkVariable<int> currentEnemyHealth = new NetworkVariable<int>();
     
     Rigidbody rb;
 
@@ -25,10 +25,14 @@ public class EnemyPathfinding : NetworkBehaviour
 
     bool hasFoundPlayer = false;
 
+    public override void OnNetworkSpawn()
+    {
+        currentEnemyHealth.Value = maxHealth;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentEnemyHealth = maxHealth;
+        
 
         rb = GetComponent<Rigidbody>();
         navPath = new NavMeshPath();
@@ -113,9 +117,10 @@ public class EnemyPathfinding : NetworkBehaviour
 
     public void OnShot(int bulletDamage)
     {
-        currentEnemyHealth -= bulletDamage;
+        Debug.Log(currentEnemyHealth.Value);
+        currentEnemyHealth.Value -= bulletDamage;
 
-        if (currentEnemyHealth <= 0) 
+        if (currentEnemyHealth.Value <= 0) 
         {
             DespawnRpc();
         }

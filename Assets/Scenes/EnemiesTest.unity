@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   enemy: {fileID: 1677725099996377303, guid: c01422553f6e6234ba091a6ccaf97918, type: 3}
-  enemyAmount: 10
+  enemyAmount: 1
 --- !u!4 &244893775
 Transform:
   m_ObjectHideFlags: 0
