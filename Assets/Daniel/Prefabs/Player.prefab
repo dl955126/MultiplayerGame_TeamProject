@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 4938630590605857389}
   - component: {fileID: 4242819192835480408}
   - component: {fileID: 5055700822817643212}
+  - component: {fileID: 1634481583438650232}
   - component: {fileID: 5515832236597510418}
   m_Layer: 0
   m_Name: Player
@@ -525,6 +526,20 @@ MonoBehaviour:
   followCamera: {fileID: 7443486091981609014}
   aimCamera: {fileID: 1080606594051030549}
   aimCameraTransform: {fileID: 7153108920698019538}
+--- !u!114 &1634481583438650232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5799588522647835553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057b40c0cb7841e6a2eaa63d23a7e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!114 &5515832236597510418
 MonoBehaviour:
   m_ObjectHideFlags: 0

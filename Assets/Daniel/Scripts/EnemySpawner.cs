@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEditor.Search.Providers;
 using UnityEngine;
@@ -8,13 +9,15 @@ public class EnemySpawner : NetworkBehaviour
     [SerializeField] EnemyPool pool;
     [SerializeField] Transform[] enemySpawnPoints;
     int spawnPointIndex = 0;
-    [SerializeField] float spawnRate;
+    [SerializeField] DirectorAI directorAI;
+    public NetworkVariable<bool> gameHasStarted = new NetworkVariable<bool>();
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void OnNetworkSpawn()
     {
-
-        
+        if(!IsServer) return;
+        gameHasStarted.Value = false;
     }
 
     public void OnStartButton()
@@ -26,10 +29,26 @@ public class EnemySpawner : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void StartGameRpc()
     {
-        InvokeRepeating("SpawnEnemy", 2, spawnRate);
+        gameHasStarted.Value = true;
+        StartCoroutine(SpawnLoop());
+        //InvokeRepeating("SpawnEnemy", 2, directorAI.currentSpawnInterval);
         Debug.Log("GAME HAS STARTED");
     }
 
+    IEnumerator SpawnLoop()
+    {
+        yield return new WaitForSeconds(2f);
+
+        while (true)
+        {
+
+            SpawnEnemy() ;
+
+            float spawnInterval = directorAI.currentSpawnInterval;
+            yield return new WaitForSeconds(spawnInterval);
+        }
+
+    }
 
     public void SpawnEnemy()
     {

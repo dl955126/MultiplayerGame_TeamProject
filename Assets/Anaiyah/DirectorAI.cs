@@ -8,9 +8,10 @@ public class DirectorAI : NetworkBehaviour
     public PlayerHealth _player;
     public EnemySpawner _spawner;
 
-    [Header("SpawnInerval")] public float minSpawnInterval;
+    [Header("SpawnInerval")] 
+    public float minSpawnInterval;
     public float maxSpawnInterval;
-    private float currentSpawnInterval;
+    public float currentSpawnInterval;
 
     [Header("Game State")] 
     public float checkState = 2f;
@@ -18,34 +19,59 @@ public class DirectorAI : NetworkBehaviour
 
     private float checkTimer;
 
-    void Start()
-    {
-        if (_spawner != null)
-        {
-            //_spawner.spawnRate = currentSpawnInterval;
-        }
-    }
+    bool hasFoundPlayer = false;
+    bool hasFoundSpawner = true;
+
 
     void Update()
     {
         if (!IsServer) return;
-       checkTimer += Time.deltaTime;
 
-       if (checkTimer >= checkState);
-       {
-           checkTimer = 0;
-           EvaluateState();
-       }
+        if (!hasFoundPlayer)
+        {
+            findPlayer();
+        }
+        if(!hasFoundSpawner)
+        {
+            findSpawner();
+        }
+
+        if (_spawner != null && _spawner.gameHasStarted.Value)
+        {
+            checkTimer += Time.deltaTime;
+
+            if (checkTimer >= checkState)
+            {
+                checkTimer = 0;
+                EvaluateState();
+            }
+        }
+    }
+
+    public void findPlayer()
+    {
+        _player = FindAnyObjectByType<PlayerHealth>();
+        hasFoundPlayer = true;
+    }
+
+    public void findSpawner()
+    {
+        _spawner = FindAnyObjectByType<EnemySpawner>();
+        hasFoundSpawner = true;
     }
 
     void EvaluateState()
     {
-        if (_player == null || _spawner = null)
+        if (_player == null)
+            return;
+        if (_spawner == null)
             return;
         
         float playerHealth = _player.currentHealth;
 
-        if (playerHealth == fullHealth)
+        //if player is half health increase spawntimer
+
+        if (playerHealth >= 50)
         {
             if (currentSpawnInterval > minSpawnInterval)
                 currentSpawnInterval -= 0.5f;
@@ -56,11 +82,5 @@ public class DirectorAI : NetworkBehaviour
                 currentSpawnInterval += 0.5f;
         }
     }
-
-    void UpdateSpawnRate(float newSpawnRate)
-    {
-        _spawner.spawnRate = newSpawnRate;
-    }
-
 
 }
