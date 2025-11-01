@@ -179,7 +179,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   bulletSpeed: 50
   bulletLifeTime: 3
-  bulletDamage: 5
+  bulletDamage: 10
 --- !u!114 &5464948354191573784
 MonoBehaviour:
   m_ObjectHideFlags: 0

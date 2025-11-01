@@ -181,7 +181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   speed: 5
-  maxHealth: 10
+  maxHealth: 50
+  enemyDamage: 10
   agent: {fileID: 1000838012094859136}
   playerTarget: {fileID: 0}
   timeToRecalcPath: 1

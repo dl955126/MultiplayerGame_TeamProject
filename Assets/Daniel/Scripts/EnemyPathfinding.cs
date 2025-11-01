@@ -8,6 +8,7 @@ public class EnemyPathfinding : NetworkBehaviour
     [Header("Enemy Variables")]
     [SerializeField] float speed;
     [SerializeField] int maxHealth = 10;
+    public int enemyDamage = 5;
     NetworkVariable<int> currentEnemyHealth = new NetworkVariable<int>();
     
     Rigidbody rb;
@@ -27,6 +28,7 @@ public class EnemyPathfinding : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (!IsServer) return;
         currentEnemyHealth.Value = maxHealth;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
