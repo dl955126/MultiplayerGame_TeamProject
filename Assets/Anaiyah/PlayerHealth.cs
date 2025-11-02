@@ -13,6 +13,8 @@ namespace Anaiyah
         bool canBeDamaged;
 
         [SerializeField] Image healthImage;
+        Rigidbody rb;
+        NewPlayerInputs playerInputs;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public override void OnNetworkSpawn()
@@ -22,8 +24,11 @@ namespace Anaiyah
             if (IsOwner)
             {
                 healthImage = GameObject.FindWithTag("Health").GetComponent<Image>();
+ 
             }
             canBeDamaged = true;
+            rb = GetComponent<Rigidbody>();
+            playerInputs = GetComponent<NewPlayerInputs>();
         }
 
         private void Update()
@@ -68,8 +73,9 @@ namespace Anaiyah
         //need to fix
         private void Dead()
         {
-            
-
+            rb.constraints = RigidbodyConstraints.None;
+            rb.linearVelocity = Vector3.zero;
+            playerInputs.isDead = true;
         }
     }
 

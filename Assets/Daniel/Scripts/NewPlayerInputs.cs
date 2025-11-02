@@ -12,6 +12,7 @@ public class NewPlayerInputs : NetworkBehaviour
     [SerializeField] Material[] playerColors;
     NetworkVariable<int> playerIndex = new NetworkVariable<int>();
     public static int playerCount = 0;
+    public bool isDead;
 
     [Header("Camera Variables")]
     [SerializeField] CinemachineCamera followCamera;
@@ -32,6 +33,7 @@ public class NewPlayerInputs : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody>();
         isAiming = false;
+        isDead = false;
     }
 
     public override void OnNetworkSpawn()
@@ -99,6 +101,8 @@ public class NewPlayerInputs : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead) return;
+
         if (!isAiming)
         {
             rb.linearVelocity = movementVector * playerSpeed;
@@ -111,12 +115,14 @@ public class NewPlayerInputs : NetworkBehaviour
 
     public void OnMovement(InputAction.CallbackContext ctx)
     {
+        if (isDead) return;
         inputVector = ctx.ReadValue<Vector2>();
         movementVector = new Vector3(inputVector.x, 0 ,inputVector.y);
     }
 
     public void OnAim(InputAction.CallbackContext ctx)
     {
+        if(isDead) return;
         if (ctx.performed)
         {
             isAiming = true;
